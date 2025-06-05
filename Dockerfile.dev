@@ -1,0 +1,23 @@
+FROM ruby:3.2
+
+# Install system dependencies
+RUN apt-get update -qq && \
+    apt-get install -y build-essential libpq-dev nodejs yarn postgresql-client libyaml-dev
+
+WORKDIR /app
+
+# Install gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# Copy the rest of the application
+COPY . .
+
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["./entrypoint.sh"]
+
+# Start the Rails server
+CMD ["rails", "server", "-b", "0.0.0.0"] 
