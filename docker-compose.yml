@@ -11,6 +11,8 @@ services:
       - .:/app
     environment:
       - RAILS_ENV=development
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
     depends_on:
       - db
 
